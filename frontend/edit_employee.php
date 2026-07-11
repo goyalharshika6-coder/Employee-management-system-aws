@@ -1,6 +1,15 @@
+<?php
+include("../backend/config/db.php");
+
+$id = $_GET['id'];
+
+$sql = "SELECT * FROM employees WHERE id='$id'";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,33 +17,62 @@
 
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
 <div class="container">
 
-    <h1>Edit Employee</h1>
+<h1>Edit Employee</h1>
 
-    <form>
+<form action="../backend/controllers/updateEmployee.php"
+      method="POST"
+      enctype="multipart/form-data">
 
-        <input type="text" placeholder="Employee Name">
+<input type="hidden"
+       name="id"
+       value="<?php echo $row['id']; ?>">
 
-        <input type="email" placeholder="Email Address">
+<input type="text"
+       name="name"
+       value="<?php echo $row['name']; ?>"
+       required>
 
-        <input type="text" placeholder="Department">
+<input type="email"
+       name="email"
+       value="<?php echo $row['email']; ?>"
+       required>
 
-        <input type="file">
+<input type="text"
+       name="department"
+       value="<?php echo $row['department']; ?>"
+       required>
 
-        <button type="submit">Update Employee</button>
+<p>Current Photo</p>
 
-    </form>
+<img src="uploads/<?php echo $row['photo']; ?>"
+     width="100">
 
-    <br>
+<br><br>
 
-    <a href="view_employee.php" class="btn">⬅ Back</a>
+<input type="file"
+       name="photo">
+
+<button type="submit">
+
+Update Employee
+
+</button>
+
+</form>
+
+<br>
+
+<a href="view_employee.php" class="btn">
+
+Back
+
+</a>
 
 </div>
 
 </body>
-
 </html>
